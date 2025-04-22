@@ -1,5 +1,18 @@
 "use strict";
 
+// --- Add at the very top: ---
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION! Shutting down...");
+  console.error(err);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("UNHANDLED REJECTION! Shutting down...");
+  console.error(reason);
+  process.exit(1);
+});
+
 const express = require("express");
 const domainProxyMiddleware = require("./proxyMiddleware");
 const { updateDomainMappings, getTargetDomain } = require("./domainMappings");
